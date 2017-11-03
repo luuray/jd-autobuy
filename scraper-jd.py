@@ -4,7 +4,7 @@
 JD online shopping helper tool
 -----------------------------------------------------
 
-only support to login by QR code, 
+only support to login by QR code,
 username / password is not working now.
 
 """
@@ -16,6 +16,7 @@ import requests.packages.urllib3
 requests.packages.urllib3.disable_warnings()
 
 import os
+import platform
 import time
 import json
 import random
@@ -168,7 +169,11 @@ class JDWrapper(object):
 
             f.close()
 
-        os.system('start ' + image_file)
+        if platform.system() == 'Windows':
+            os.system('start ' + image_file)
+        if platform.system() == 'Darwin':
+            os.system('open ' + image_file)
+
         return str(raw_input('Auth Code: '))
 
     def _login_once(self, login_data):
@@ -322,7 +327,10 @@ class JDWrapper(object):
                     f.write(chunk)
 
             ## scan QR code with phone
-            os.system('start ' + image_file)
+            if platform.system() == 'Windows':
+                os.system('start ' + image_file)
+            if platform.system() == 'Darwin':
+                os.system('open ' + image_file)
 
             # step 3： check scan result
             ## mush have
